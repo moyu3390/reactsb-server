@@ -43,7 +43,7 @@ public class NettyTcpServerDefaultChannelHandler extends ChannelHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
         try {
-            log.debug("ctx={}, id={}, port={} ,data={}", ctx.name(), nettyTcpServer.getId(), nettyTcpServer.getPort() ,msg.toString());
+            log.debug("ctx={}, id={}, port={}, dataLength={} ,data={}", ctx.name(), nettyTcpServer.getId(), nettyTcpServer.getPort(), msg.toString().getBytes().length ,msg.toString());
         }catch(Exception e){
             e.printStackTrace();
         }finally {
