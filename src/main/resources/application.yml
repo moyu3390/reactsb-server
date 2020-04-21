@@ -1,0 +1,27 @@
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2
+  datasource:
+    url: jdbc:h2:mem:test
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+#    url: jdbc:oracle:thin:@dev.altiall.com:8901:ORCLCDB
+#    username: wcs
+#    password: wcs
+#    driver-class-name: oracle.jdbc.OracleDriver
+#    test-on-borrow: true
+#    test-while-idle: true
+    hikari:
+      maximum-pool-size: 2
+      minimum-idle: 1
+      pool-name: hikari
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+logging:
+  level:
+    com.example: debug
