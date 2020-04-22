@@ -19,7 +19,7 @@ import java.nio.charset.Charset;
 
 @Data
 @Slf4j
-public class NettyTcpServer {
+public class NettyTcpServer implements INettyTcpAdapter {
 
     private String id;
 
@@ -53,21 +53,32 @@ public class NettyTcpServer {
                 .childOption(ChannelOption.SO_KEEPALIVE, true); // (6)
     }
 
-    public void run() throws InterruptedException {
-        ChannelFuture f = b.bind(port).sync();
+    @Override
+    public boolean run() {
+        try {
+            ChannelFuture f = b.bind(port).sync();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            return false;
+        }
+        log.debug("run!");
 //        f.channel().closeFuture().sync();
+        return true;
     }
-
-    public void stop() {
+    @Override
+    public boolean stop() {
         workerGroup.shutdownGracefully();
         bossGroup.shutdownGracefully();
+        return true;
     }
-
-    public void send(String message){
+    @Override
+    public boolean send(String message){
 //        Charset utf8 = Charset.forName("cp949");
 //        byte[] s = message.getBytes(utf8);
         byte[] s = message.getBytes();
         ByteBuf b = PooledByteBufAllocator.DEFAULT.buffer(s.length).writeBytes(s);
         channels.writeAndFlush(b);
+
+        return true;
     }
 }
